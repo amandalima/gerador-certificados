@@ -1,0 +1,24 @@
+server:
+  port: 9666
+
+spring:
+
+  flyway:
+    enabled: false
+    url: jdbc:postgresql://localhost:5432/gerador_certificados
+    user: postgres
+    password: postgres
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gerador_certificados
+    username: postgres
+    password: postgres
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    hibernate:
+      ddl-auto: none
+      show: true
