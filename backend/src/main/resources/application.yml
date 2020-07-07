@@ -4,7 +4,7 @@ server:
 spring:
 
   flyway:
-    enabled: false
+    enabled: true
     url: jdbc:postgresql://localhost:5432/gerador_certificados
     user: postgres
     password: postgres
