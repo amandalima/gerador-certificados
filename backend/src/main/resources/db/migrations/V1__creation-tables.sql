@@ -1,55 +1,55 @@
 CREATE TABLE usuario(
-    id bigint NOT NULL,
+    id serial NOT NULL,
     nome text NOT NULL,
     cpf text NOT NULL,
     email text NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    ativo boolean,
+    ativo boolean DEFAULT TRUE ,
     perfil_id int NOT NULL,
     senha text NOT NULL,
     CONSTRAINT usuario_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE perfis(
-    id bigint NOT NULL,
+CREATE TABLE perfil(
+    id serial NOT NULL,
     nome text NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    CONSTRAINT perfis_pk PRIMARY KEY (id)
+    CONSTRAINT perfil_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE permissoes(
-    id bigint NOT NULL,
+    id serial NOT NULL,
     nome text NOT NULL,
     created_at TIMESTAMP NOT NULL,
     CONSTRAINT permissoes_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE rel_permissao_perfil(
-    id bigint NOT NULL,
-    permissao_id bigint,
-    perfil_id bigint,
+    id serial NOT NULL,
+    permissao_id int,
+    perfil_id int,
     created_at TIMESTAMP NOT NULL,
     CONSTRAINT rel_permissao_perfil_pk PRIMARY KEY (id),
     CONSTRAINT permissao_fk FOREIGN KEY (permissao_id) REFERENCES permissoes(id),
-    CONSTRAINT perfil_fk FOREIGN KEY (perfil_id) REFERENCES perfis(id)
+    CONSTRAINT perfil_fk FOREIGN KEY (perfil_id) REFERENCES perfil(id)
 );
 
 CREATE TABLE evento(
-    id bigint NOT NULL,
+    id serial NOT NULL,
     nome text NOT NULL,
     data_evento TIMESTAMP NOT NULL,
     duracao DECIMAL NOT NULL,
     texto text,
-    id_usuario bigint NOT NULL,
+    id_usuario int NOT NULL,
     created_at TIMESTAMP NOT NULL,
     CONSTRAINT evento_pk PRIMARY KEY (id),
     CONSTRAINT id_usuario_fk FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 
 CREATE TABLE rel_participante_evento(
-    id bigint NOT NULL,
-    usuario_id bigint NOT NULL,
-    evento_id bigint NOT NULL,
+    id serial NOT NULL,
+    usuario_id int NOT NULL,
+    evento_id int NOT NULL,
     created_at TIMESTAMP not NULL,
     CONSTRAINT rel_participante_evento_pk PRIMARY KEY (id),
     CONSTRAINT rel_usuario_evento_fk FOREIGN KEY (usuario_id) REFERENCES usuario(id),
@@ -57,8 +57,8 @@ CREATE TABLE rel_participante_evento(
 );
 
 CREATE TABLE certificado(
-    id bigint NOT NULL,
-    rel_participante_evento bigint NOT NULL,
+    id serial NOT NULL,
+    rel_participante_evento int NOT NULL,
     protocolo text NOT NULL,
     num_downloads int,
     last_download TIMESTAMP,
@@ -74,3 +74,6 @@ CREATE TABLE feature_toogle(
     created_at TIMESTAMP NOT NULL,
     CONSTRAINT feature_toogle_pk PRIMARY KEY (id)
 );
+
+ALTER TABLE usuario
+ADD CONSTRAINT perfil_user_fk FOREIGN KEY (perfil_id) REFERENCES perfil(id);
